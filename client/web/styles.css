@@ -17,7 +17,7 @@ body{
 }
 
 #output{
-    height:50%;
+    height:70%;
     width:80%;
     background:black;
     display:block;
@@ -51,10 +51,10 @@ textarea{
 }
 
 button{
-    height:33%;
+    height:50%;
     width:100%;
     display:block;
-    margin-bottom:3px;
+    margin-bottom:7px;
 }
 
 .prefabImg{
@@ -62,10 +62,6 @@ button{
     width-max:80%;
     height:auto;
     border:2px solid white;
-}
-
-.prefabVideo{
-    width:70%;
-    height:400px;
-    border:2px solid white;
+    display: block;
+    margin:auto;
 }

@@ -19,10 +19,6 @@ Future<Null> main() async {
     addContent(getPrefabImg(input.value));
   });
 
-  //send video
-  buttonVideo.onClick.listen((MouseEvent event) async{
-    addContent(getPrefabVideo(input.value));
-  });
 }
 
 //if user use a prefab img
@@ -31,14 +27,8 @@ String getPrefabImg(url) {
 }
 
 
-//if user use a prefab video
-String getPrefabVideo(url) {
-  return "<iframe class='prefabVideo'' src='" + url + "' frameborder='0' allowfullscreen></iframe>";
-}
-
-
 //reset input and add content
 void addContent(value){
-  output.setInnerHtml(value + output.innerHtml);
+  output.insertAdjacentHtml('afterBegin', value, treeSanitizer: NodeTreeSanitizer.trusted);
   input.value = null;
 }
