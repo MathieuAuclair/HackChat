@@ -1,5 +1,6 @@
 import 'dart:html';
 import 'dart:async';
+import 'package:http/browser_client.dart' as http;
 
 InputElement input = querySelector("#textInput");
 var output = querySelector("#output");
@@ -9,14 +10,21 @@ var buttonVideo = querySelector("#video");
 
 Future<Null> main() async {
 
+  var ws = new WebSocket('ws://localhost:8080/ws');
+  ws.onMessage.listen((MessageEvent event) {
+    print(event.data);
+  });
+
   //send custom message
   buttonSend.onClick.listen((MouseEvent event) async{
     addContent(input.value);
+    sendSocketMsg(ws, input.value);
   });
 
   //send img
   buttonImg.onClick.listen((MouseEvent event) async{
     addContent(getPrefabImg(input.value));
+    sendSocketMsg(ws, input.value);
   });
 
 }
@@ -26,9 +34,19 @@ String getPrefabImg(url) {
   return "<img class='prefabImg' src='" + url + "'>";
 }
 
-
 //reset input and add content
 void addContent(value){
   output.insertAdjacentHtml('afterBegin', value, treeSanitizer: NodeTreeSanitizer.trusted);
   input.value = null;
+}
+
+void sendSocketMsg(WebSocket ws, String message) {
+  if (ws != null && ws.readyState == WebSocket.CONNECTING) {
+    new Future.delayed(
+        //set a delay if server isn't connected
+        new Duration(microseconds: 1), () => sendSocketMsg(ws, message));
+  } else {
+    //send the message
+    ws.send(message);
+  }
 }
