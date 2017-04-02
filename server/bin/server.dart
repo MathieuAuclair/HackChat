@@ -11,10 +11,13 @@ List<String> Chat = new List<String>();
 
 //main function
 Future<Null> main(List<String> args) async{
-  var parser = new ArgParser()..addOption('port', abbr: 'p', defaultsTo: '8090');
+  //set the port
+  var parser = new ArgParser()
+    ..addOption('port', abbr: 'p', defaultsTo: '8080');
+
   var result = parser.parse(args);
 
-  //set a port and throw an error if it's wrong
+  //use the port and throw an error if it's wrong
   var port = int.parse(result['port'], onError: (val) {
     io.stdout.writeln('Could not parse port value "$val" into a number.');
     io.exit(1);
@@ -25,6 +28,7 @@ Future<Null> main(List<String> args) async{
       .addMiddleware(shelf.logRequests())
       .addMiddleware(shelf_cors.createCorsHeadersMiddleware())
       .addHandler(getChatContent); //call the request here
+
   shelf_io.serve(handler, '0.0.0.0', port).then((server) { //Console message when server launch
     print('Serving at http://${server.address.host}:${server.port}');
   });
@@ -46,11 +50,11 @@ Future<Null> main(List<String> args) async{
           socket.listen((msg) => handleMessage(socket, msg));
         }
       });
-    } catch (e) {
+    }
+    catch (e) {
       print("An error occurred. ${e.toString()}");
     }
   }
-
   //call function
   startSocket();
 }
@@ -59,9 +63,9 @@ Future<Null> main(List<String> args) async{
 //listen to client request
 shelf.Response getChatContent(shelf.Request request) {
   //select the right path
-  if (request.requestedUri.path == '/number') {
-    //number++;
-    return new shelf.Response.ok(/*response goes here*/1);
+  if (request.requestedUri.path == '/chat') {
+    Chat[Chat.length] = request.toString();
+    return new shelf.Response.ok(Chat);
   }
   //request doesn't exist
   return new shelf.Response.forbidden('Cannot access this path');

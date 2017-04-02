@@ -10,21 +10,26 @@ var buttonVideo = querySelector("#video");
 
 Future<Null> main() async {
 
-  var ws = new WebSocket('ws://localhost:8080/ws');
+  var ws = new WebSocket('ws://localhost:8090/ws');
   ws.onMessage.listen((MessageEvent event) {
     print(event.data);
   });
 
+  //set a http
+  var client = new http.BrowserClient();
+
   //send custom message
   buttonSend.onClick.listen((MouseEvent event) async{
     addContent(input.value);
-    sendSocketMsg(ws, input.value);
+    var response = await client.get('http://localhost:8080/number');
+    sendSocketMsg(ws, response.body);
   });
 
   //send img
   buttonImg.onClick.listen((MouseEvent event) async{
     addContent(getPrefabImg(input.value));
-    sendSocketMsg(ws, input.value);
+    var response = await client.get('http://localhost:8080/number');
+    sendSocketMsg(ws, response.body);
   });
 
 }
@@ -36,7 +41,7 @@ String getPrefabImg(url) {
 
 //reset input and add content
 void addContent(value){
-  output.insertAdjacentHtml('afterBegin', value, treeSanitizer: NodeTreeSanitizer.trusted);
+  output.insertAdjacentHtml('beforeBegin', value, treeSanitizer: NodeTreeSanitizer.trusted);
   input.value = null;
 }
 
