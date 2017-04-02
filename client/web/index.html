@@ -6,20 +6,31 @@
 -->
 
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="scaffolded-by" content="https://github.com/google/stagehand">
-    <title>DevChat</title>
-    <link rel="stylesheet" href="styles.css">
-    <script defer src="main.dart" type="application/dart"></script>
-    <script defer src="packages/browser/dart.js"></script>
-</head>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="scaffolded-by" content="https://github.com/google/stagehand">
+        <title>DevChat</title>
+        <link rel="stylesheet" href="styles.css">
+        <script defer src="main.dart" type="application/dart"></script>
+        <script defer src="packages/browser/dart.js"></script>
+    </head>
 
-<body>
+    <body>
+        <h1>HackChat</h1>
+        <p>this is a chat with absolute no security, do whatever you want</p>
+        <div id="output">
+            <!--here goes messages-->
 
-  <div id="output"></div>
-
-</body>
+        </div>
+        <div class="input">
+            <textarea id="textInput"></textarea>
+            <div>
+                <button id="video">video</button>
+                <button id="url">url</button>
+                <button id="send">send</button>
+            </div>
+        </div>
+    </body>
 </html>
